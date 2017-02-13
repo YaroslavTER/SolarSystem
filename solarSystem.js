@@ -42,7 +42,7 @@ function DrawElement(element) {
     ctx.fillText(element.name, distance, canvasesPart+element.radius*1.5)
 }
 
-//1 Moon's diameter = 1 pixel
+//1 Moon's radius = 1 pixel
 
 AddEelement("Sun", 200, "#FDE301", 16669)
 
