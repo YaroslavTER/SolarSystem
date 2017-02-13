@@ -40,12 +40,12 @@ AddEelement("Sun", 200, "#FDE301", 16669)
 AddEelement("Mercury", 1, "#746F6B", 14476)
 AddEelement("Venus", 3, "#DA730C", 11917)
 AddEelement("Earth", 2, "#0BA3D3", 110)
-AddElement("Moon", 1, "#999999", 22440)
+AddEelement("Moon", 1, "#999999", 22440)
 
 AddEelement("Mars", 2, "#FF8B00", 158431)
 AddEelement("Jupiter", 40, "#EDC6A1", 186030)
 AddEelement("Saturn", 33, "#BE9875", 417084)
-ddEelement("Uranus", 14, "#8CDBE0", 468465)
+AddEelement("Uranus", 14, "#8CDBE0", 468465)
 
 AddEelement("Neptun", 14, "#497AF4", 0)
 
