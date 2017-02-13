@@ -9,6 +9,7 @@ var BLACK = "#000000"
 var distance = canvasesPart
 
 var systemElements = []
+var moveCoef = 0
 
 function AddEelement(inputName, inputRadius, inputColor, inputRangeCoef) {
     systemElements.push({name: inputName, radius: inputRadius,
@@ -16,12 +17,16 @@ function AddEelement(inputName, inputRadius, inputColor, inputRangeCoef) {
 }
 
 function Draw() {
+    ctx.clearRect(0, 0, width, height)
+    ctx.save()
+    ctx.translate(moveCoef, 0)
     ctx.fillSyle = BLACK
     ctx.fillRect(0, 0, width, height)
     for(let element of systemElements) {
         DrawElement(element)
         distance += element.rangeCoef
     }
+    ctx.restore()
 }
 
 function DrawElement(element) {
@@ -50,3 +55,12 @@ AddEelement("Uranus", 14, "#8CDBE0", 468465)
 AddEelement("Neptun", 14, "#497AF4", 0)
 
 Draw()
+
+document.addEventListener('keydown', function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which)
+    if(event.which == 39)//right arrow
+        moveCoef--
+    if(event.which == 37)//left arrow
+        moveCoef++
+    Draw()
+})
