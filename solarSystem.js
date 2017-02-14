@@ -1,8 +1,9 @@
 var canvas = document.getElementById('system_id')
 var ctx = canvas.getContext('2d')
 
-ctx.canvas.height = window.innerHeight//fill all window
-var height = canvas.clientHeight, width = 18000
+ctx.canvas.height = window.innerHeight
+ctx.canvas.width = window.innerWidth
+var height = canvas.clientHeight, width = canvas.clientWidth
 
 var canvasesPart = height/2.2
 var distance = canvasesPart
@@ -14,6 +15,7 @@ var systemElements = []
 var move = 0
 var moveCoef = 10
 
+var lines = []
 var linesHeight = 100
 var linesDistance = 30
 
@@ -46,6 +48,10 @@ function DrawElement(element) {
     ctx.fill(circle)
     ctx.font = '48px serif'
     ctx.fillText(element.name, distance, canvasesPart+element.radius*1.5)
+}
+
+function SetLines() {
+
 }
 
 function DrawLines() {
