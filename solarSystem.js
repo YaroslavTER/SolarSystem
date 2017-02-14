@@ -2,15 +2,20 @@ var canvas = document.getElementById('system_id')
 var ctx = canvas.getContext('2d')
 
 ctx.canvas.height = window.innerHeight//fill all window
-var height = canvas.clientHeight, width = 500000
+var height = canvas.clientHeight, width = 18000
 
 var canvasesPart = height/2.2
-var BLACK = "#000000"
 var distance = canvasesPart
+
+var BLACK = "#000000"
+var WHITE = "#FFFFFF"
 
 var systemElements = []
 var move = 0
-var moveCoef = 1
+var moveCoef = 10
+
+var linesHeight = 100
+var linesDistance = 30
 
 var time = 3
 
@@ -22,14 +27,15 @@ function AddEelement(inputName, inputRadius, inputColor, inputRangeCoef) {
 function Draw() {
     ctx.clearRect(0, 0, width, height)
     ctx.save()
-    ctx.translate(move, 0)
-    ctx.fillSyle = BLACK
+    ctx.fillStyle = BLACK
     ctx.fillRect(0, 0, width, height)
+    ctx.translate(move, 0)
     for(let element of systemElements) {
         DrawElement(element)
         distance += element.rangeCoef
     }
     distance = canvasesPart
+    DrawLines()
     ctx.restore()
 }
 
@@ -40,6 +46,25 @@ function DrawElement(element) {
     ctx.fill(circle)
     ctx.font = '48px serif'
     ctx.fillText(element.name, distance, canvasesPart+element.radius*1.5)
+}
+
+function DrawLines() {
+    let counter = 0
+    let distance = linesDistance
+    let linesNumber = width/linesDistance
+    while(counter < linesNumber) {
+        DrawLine(distance)
+        distance += linesDistance
+        counter++
+    }
+}
+
+function DrawLine(position) {
+    ctx.strokeStyle = WHITE
+    ctx.beginPath()
+    ctx.lineTo(position, height-linesHeight)
+    ctx.lineTo(position, height)
+    ctx.stroke()
 }
 
 //1 Moon's radius = 1 pixel
