@@ -1,5 +1,6 @@
 var canvas = document.getElementById('system_id')
 var ctx = canvas.getContext('2d')
+var ctxLines = canvas.getContext('2d')
 
 ctx.canvas.height = window.innerHeight
 ctx.canvas.width = window.innerWidth
@@ -19,8 +20,6 @@ var lines = []
 var linesHeight = 100
 var linesDistance = 30
 
-var time = 3
-
 function AddEelement(inputName, inputRadius, inputColor, inputRangeCoef) {
     systemElements.push({name: inputName, radius: inputRadius,
                          color: inputColor, rangeCoef: inputRangeCoef})
@@ -37,8 +36,9 @@ function Draw() {
         distance += element.rangeCoef
     }
     distance = canvasesPart
-    DrawLines()
+
     ctx.restore()
+    DrawLines()
 }
 
 function DrawElement(element) {
@@ -50,27 +50,39 @@ function DrawElement(element) {
     ctx.fillText(element.name, distance, canvasesPart+element.radius*1.5)
 }
 
-function SetLines() {
-
+function DrawLines() {
+    ctxLines.clearRect(height, height-linesHeight, width, height)
+    for(let line of lines)
+        DrawLine(line)
 }
 
-function DrawLines() {
+function DrawLine(position) {
+    ctxLines.strokeStyle = WHITE
+    ctxLines.beginPath()
+    ctxLines.lineTo(position, height-linesHeight)
+    ctxLines.lineTo(position, height)
+    ctxLines.stroke()
+}
+
+function SetInitialLines() {
     let counter = 0
-    let distance = linesDistance
+    let distance = 0
     let linesNumber = width/linesDistance
     while(counter < linesNumber) {
-        DrawLine(distance)
+        lines.push(distance)
         distance += linesDistance
         counter++
     }
 }
 
-function DrawLine(position) {
-    ctx.strokeStyle = WHITE
-    ctx.beginPath()
-    ctx.lineTo(position, height-linesHeight)
-    ctx.lineTo(position, height)
-    ctx.stroke()
+function AddValueToLines(position) {
+    for(let index = 0; index < lines.length; index++) {
+        lines[index] += position
+        if(lines[index] == width)
+            lines[index] = 0
+        else if(lines[index] <= 0)
+            lines[index] = width
+    }
 }
 
 //1 Moon's radius = 1 pixel
@@ -89,13 +101,18 @@ AddEelement("Uranus", 14, "#8CDBE0", 468465)
 
 AddEelement("Neptun", 14, "#497AF4", 0)
 
+SetInitialLines()
+
 Draw()
 
 document.addEventListener('keydown', function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which)
-    if(event.which == 39)//right arrow
+    if(event.which == 39) {//right arrow
+        AddValueToLines(-moveCoef)
         move -= moveCoef
-    if(event.which == 37)//left arrow
+    } else if(event.which == 37) {//left arrow
+        AddValueToLines(moveCoef)
         move += moveCoef
+    }
     Draw()
 })
