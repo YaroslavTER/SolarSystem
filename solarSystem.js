@@ -17,7 +17,8 @@ var move = 0
 var moveCoef = 10
 
 var lines = []
-var linesHeight = 100
+var linesHeight = 80
+var additionHeight = 20
 var linesDistance = 30
 
 function AddEelement(inputName, inputRadius, inputColor, inputRangeCoef) {
@@ -36,7 +37,6 @@ function Draw() {
         distance += element.rangeCoef
     }
     distance = canvasesPart
-
     ctx.restore()
     DrawLines()
 }
@@ -51,26 +51,32 @@ function DrawElement(element) {
 }
 
 function DrawLines() {
-    ctxLines.clearRect(height, height-linesHeight, width, height)
-    for(let line of lines)
-        DrawLine(line)
+    ctxLines.clearRect(0, height-linesHeight, width, height)
+    ctxLines.fillRect(0, height-linesHeight, width, height)
+    let counter = 0
+    let jumpCoef = 5
+    for(let line of lines) {
+        DrawLine(line, counter++ % jumpCoef == 0 ? linesHeight + additionHeight
+                                                 : linesHeight)
+    }
 }
 
-function DrawLine(position) {
+function DrawLine(position, inputHeight) {
     ctxLines.strokeStyle = WHITE
     ctxLines.beginPath()
-    ctxLines.lineTo(position, height-linesHeight)
+    ctxLines.lineTo(position, height-inputHeight)
     ctxLines.lineTo(position, height)
     ctxLines.stroke()
 }
 
 function SetInitialLines() {
     let counter = 0
-    let distance = 0
+    let jumpCoef = 5
+    let distance = linesDistance
     let linesNumber = width/linesDistance
     while(counter < linesNumber) {
         lines.push(distance)
-        distance += linesDistance
+        distance +=  linesDistance
         counter++
     }
 }
