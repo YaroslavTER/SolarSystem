@@ -4,13 +4,14 @@ var ctxLines = canvas.getContext('2d')
 
 ctx.canvas.height = window.innerHeight
 ctx.canvas.width = window.innerWidth
+
+const WHITE = "#FFFFFF"
+const BLACK = "#000000"
+
 var height = canvas.clientHeight, width = canvas.clientWidth
 
 var canvasesPart = height/2.2
 var distance = canvasesPart
-
-var BLACK = "#000000"
-var WHITE = "#FFFFFF"
 
 var systemElements = []
 var move = 0
@@ -38,6 +39,7 @@ function Draw() {
     }
     distance = canvasesPart
     ctx.restore()
+    DrawDistanceTraveled(Math.abs(move))
     DrawLines()
 }
 
@@ -51,14 +53,21 @@ function DrawElement(element) {
 }
 
 function DrawLines() {
-    ctxLines.clearRect(0, height-linesHeight, width, height)
-    ctxLines.fillRect(0, height-linesHeight, width, height)
     let counter = 0
     let jumpCoef = 5
     for(let line of lines) {
         DrawLine(line, counter++ % jumpCoef == 0 ? linesHeight + additionHeight
                                                  : linesHeight)
     }
+}
+
+function DrawDistanceTraveled(distanceTraveled) {
+    let retreat = 10
+    let moonDiameter = 3474
+    ctx.fillStyle = WHITE
+    ctx.font = '14px serif'
+    ctx.fillText(distanceTraveled*moonDiameter + " km", width/2,
+                 height - linesHeight - additionHeight - retreat)
 }
 
 function DrawLine(position, inputHeight) {
