@@ -93,11 +93,27 @@ function SetInitialLines() {
 function AddValueToLines(position) {
     for(let index = 0; index < lines.length; index++) {
         lines[index] += position
-        if(lines[index] == width)
-            lines[index] = 0
+        if(lines[index] >= width)
+            lines[index] = Min(lines) - linesDistance
         else if(lines[index] <= 0)
-            lines[index] = width
+            lines[index] = Max(lines) + linesDistance
     }
+}
+
+function Max(inputLines) {
+    let max = inputLines[0]
+    for(let line of inputLines)
+        if(line > max)
+            max = line
+    return max
+}
+
+function Min(inputLines) {
+    let min = inputLines[0]
+    for(let line of inputLines)
+        if(line < min)
+            min = line
+    return min
 }
 
 //1 Moon's radius = 1 pixel
